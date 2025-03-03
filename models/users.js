@@ -4,45 +4,57 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    // firstName: {
-    //   type: String,
-    //   trim: true,
-    // },
-    // lastName: {
-    //   type: String,
-    //   trim: true,
-    // },
-    // country: {
-    //   type: String,
-    //   trim: true,
-    // },
-    // gender: {
-    //   type: String,
-    //   trim: true,
-    //   enum: ["male", "female"],
-    // },
+    firstName: {
+      type: String,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+    },
+    userName: {
+      type: String,
+      trim: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
+    facebook: {
+      type: String,
+      trim: true,
+    },
+    instagram: {
+      type: String,
+      trim: true,
+    },
+    twitter: {
+      type: String,
+      trim: true,
+    },
 
+    projects:[{
+      brandName:String,
+      details:String,
+      testimonial:String
+    }],
 
-    // profilePicture: {
-    //   type: String,
-    // },
+    profilePicture: {
+      type: String,
+    },
     email: {
       type: String,
       trim: true,
     },
-    // dob: {
-    //   type: String,
-    //   trim: true,
-    // },
+    promo: {
+      type: String,
+      trim: true,
+    },
 
     password: {
       type: String,
       trim: true,
     },
-    // verified: {
-    //   type: Boolean,
-    //   default: false,
-    // },
 
     role: {
       type: String,
