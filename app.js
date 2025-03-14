@@ -4,17 +4,21 @@ const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const connectDB = require("./db/db");
-
-
-const PORT = process.env.PORT;
-const authRouter = require("./routes/auth");
-
-
 app.use(express.json());
 
 app.use(morgan("dev"));
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://reimagined-couscous-drab.vercel.app"], // Your frontend domain
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Authorization",
+  credentials: true, // Enable if using cookies/tokens
+};
+
+app.use(cors(corsOptions));
 app.use("/uploads", express.static("uploads"));
+
+const PORT = process.env.PORT;
+const authRouter = require("./routes/auth");
 
 app.get("/", (req, res) => {
   res.send(
