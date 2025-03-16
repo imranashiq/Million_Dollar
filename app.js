@@ -19,14 +19,21 @@ app.use("/uploads", express.static("uploads"));
 
 const PORT = process.env.PORT;
 const authRouter = require("./routes/auth");
+const influencerRouter = require("./routes/influencer");
+const pixelRouter = require("./routes/pixels");
+
 
 app.get("/", (req, res) => {
   res.send(
     "<h1 style='display: flex; justify-content: center;  align-items: center; height: 200px'>Welcome to Million Dollar Backend</h1>"
   );
 });
-
+pixelRouter
 app.use("/api/v1", authRouter);
+app.use("/api/v1", influencerRouter);
+app.use("/api/v1", pixelRouter);
+
+
 
 
 const start = async () => {
