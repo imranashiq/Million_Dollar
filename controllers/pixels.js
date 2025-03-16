@@ -1,4 +1,4 @@
-const Pixel = require("../models/pixel");
+const Pixel = require("../models/pixels");
 
 exports.createPixel = async (req, res) => {
     try {

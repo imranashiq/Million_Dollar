@@ -1,7 +1,7 @@
 const influencerRouter = require("express").Router();
 const { createInfluencerProfile, getProfile, uploadPromo, deleteUser } = require("../controllers/influencer");
 const userAuth = require("../middlewares/userAuth");
-const { upload } = require("../utills/upload");
+const  upload  = require("../utills/upload");
 
 
 influencerRouter.post("/createInfluencerProfile",upload.single("file"), createInfluencerProfile);
