@@ -2,7 +2,7 @@ const User = require("../models/users");
 
 exports.createInfluencerProfile=async (req,res) => {
     try {
-        const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email}=req.body
+        const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email,selectedPixels}=req.body
         let check=await User.findOne({email})
         if (!check) {
             return res.status(400).json({success:false,email:"Wrong Email"})
@@ -12,8 +12,22 @@ exports.createInfluencerProfile=async (req,res) => {
              profilePicture="/"+req.file.path
         }
 
-      await User.findOneAndUpdate({email},{firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email,profilePicture,role:"influencer"})
+      await User.findOneAndUpdate({email},{firstName,selectedPixels,lastName,userName,bio,facebook,instagram,twitter,projects,email,profilePicture,role:"influencer"})
       return res.status(200).json({success:true,message:"Influencer Profile Created"})
+    } catch (error) {
+        return res.status(400).json({success:false,message:error.message})
+    }
+}
+
+exports.uploadPixelImage=async (req,res) => {
+    try {
+        const {userId}=req.user
+        if (req.file) {
+            let pixelImage="/"+req.file.path
+            await User.findOneAndUpdate({_id:userId},{pixelImage})
+            return res.status(200).json({success:true,message:"Pixel Image Uploaded Successfully"})
+        }
+   
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
     }

@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema(
       details:String,
       testimonial:String
     }],
+    pixelImage: {
+      type: String,
+    },
 
     profilePicture: {
       type: String,
@@ -78,6 +81,18 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    selectedPixels: [
+      {
+        startPos: {
+          x: { type: Number, required: true },
+          y: { type: Number, required: true },
+        },
+        endPos: {
+          x: { type: Number, required: true },
+          y: { type: Number, required: true },
+        },
+      },
+    ],
   },
   {
     timestamps: true,
