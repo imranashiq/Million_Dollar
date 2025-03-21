@@ -7,6 +7,8 @@ const connectDB = require("./db/db");
 app.use(express.json());
 
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
+
 const corsOptions = {
   origin: ["http://localhost:5173", "https://reimagined-couscous-drab.vercel.app"], // Your frontend domain
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
