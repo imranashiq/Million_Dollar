@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 const corsOptions = {
   origin: ["http://localhost:5173", "https://reimagined-couscous-drab.vercel.app"], // Your frontend domain
-  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true, // Enable if using cookies/tokens
 };
