@@ -54,7 +54,6 @@ exports.addCoins=async (req,res) => {
 exports.uploadPixelImage=async (req,res) => {
     try {
         const {userId}=req.user
-        console.log(req.file)
         if (req.file) {
             let pixelImage="/"+req.file.path
             await User.findOneAndUpdate({_id:userId},{pixelImage})

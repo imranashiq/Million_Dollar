@@ -58,7 +58,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-
+    coins: {
+      type: String,
+    },
     role: {
       type: String,
       enum: ["user", "influencer", "admin"],
