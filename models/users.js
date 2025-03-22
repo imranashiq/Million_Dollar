@@ -59,7 +59,8 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     coins: {
-      type: String,
+      type: Number,
+      default:0
     },
     role: {
       type: String,

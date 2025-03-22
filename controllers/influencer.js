@@ -3,6 +3,7 @@ const User = require("../models/users");
 exports.createInfluencerProfile=async (req,res) => {
     try {
         const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email}=req.body
+        console.log(req.body)
         let check=await User.findOne({email})
         if (!check) {
             return res.status(400).json({success:false,email:"Wrong Email"})
@@ -21,14 +22,20 @@ exports.createInfluencerProfile=async (req,res) => {
 
 exports.SelectPixel=async (req,res) => {
     try {
-        const {email,selectedPixels}=req.body
+        const {email,selectedPixels,subtotal}=req.body
+        console.log(req.body)
         let check=await User.findOne({email})
         if (!check) {
             return res.status(400).json({success:false,email:"Wrong Email"})
         }
-        
+        const deduction=check.coins-subtotal
+        console.log(deduction)
+        if (deduction<0) {
+            return res.status(400).json({success:trie,message:"You Don't Enough Coins"})
+        }
 
-      await User.findOneAndUpdate({email},{selectedPixels})
+
+      await User.findOneAndUpdate({email},{selectedPixels,coins:deduction})
       return res.status(200).json({success:true,message:"Pixels Selected"})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
@@ -42,10 +49,29 @@ exports.addCoins=async (req,res) => {
         if (!check) {
             return res.status(400).json({success:false,email:"Wrong Email"})
         }
-        
 
-      await User.findOneAndUpdate({email},{coins})
+      await User.findOneAndUpdate({email},{coins:check.coins+coins})
       return res.status(200).json({success:true,message:"Coins Added"})
+    } catch (error) {
+        return res.status(400).json({success:false,message:error.message})
+    }
+}
+
+
+exports.deductCoins=async (req,res) => {
+    try {
+        const {email,coins}=req.body
+        let check=await User.findOne({email})
+        if (!check) {
+            return res.status(400).json({success:false,email:"Wrong Email"})
+        }
+        const deduction=check.coins-coins
+        if (deduction<0) {
+            return res.status(400).json({success:trie,message:"You Don't Enough Coins"})
+        }
+
+      await User.findOneAndUpdate({email},{coins:check.coins-coins})
+      return res.status(200).json({success:true,message:"Coins deducted"})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
     }
@@ -78,7 +104,7 @@ exports.getProfile=async (req,res) => {
 exports.getInfluencer=async (req,res) => {
     try {
         // const {userId}=req.user
-        const user=await User.findOne({role:"influencer",permanentDeleted:false})
+        const user=await User.find({role:"influencer",permanentDeleted:false})
       return res.status(200).json({success:true,data:user})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
