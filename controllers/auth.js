@@ -122,22 +122,17 @@ exports.login = async (req, res) => {
 
 exports.googleLogin = async (req, res) => {
   try {
-    const { userData } = req.body;
-
-    const { emailVerified } = userData;
-    if (!emailVerified) {
-      return res.status(400).json({ success: false, message: "Invalid email" });
-    }
-    const { email } = userData;
+    const { email } = req.body;
+console.log(req.body)
+    // const { emailVerified } = userData;
+    // if (!emailVerified) {
+    //   return res.status(400).json({ success: false, message: "Invalid email" });
+    // }
+    // const { email } = userData;
     const oldUser = await User.findOne({ email, permanentDeleted: false });
     // const existingUser = await User.findOne({ email,permanentDeleted:true});
 
     if (oldUser) {
-   
-        await User.findOneAndUpdate(
-          { _id: oldUser._id },
-          { deviceToken: userData.deviceToken }
-        );
 
         const token = await oldUser.createJWT();
         return res.status(200).json({
@@ -179,6 +174,7 @@ exports.googleLogin = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error.message)
     return res.status(400).json({ success: false, message: error.message });
   }
 };
