@@ -9,7 +9,7 @@ influencerRouter.patch("/SelectPixel", SelectPixel);
 influencerRouter.patch("/addCoins", addCoins);
 influencerRouter.patch("/deductCoins", deductCoins);
 influencerRouter.get("/getProfile",userAuth, getProfile);
-influencerRouter.get("/getInfluencer",userAuth, getInfluencer);
+influencerRouter.get("/getInfluencer", getInfluencer);
 influencerRouter.patch("/uploadPromo",userAuth,upload.single("file"), uploadPromo);
 influencerRouter.patch("/uploadPixelImage",userAuth,upload.single("file"), uploadPixelImage);
 influencerRouter.patch("/deleteUser",userAuth, deleteUser);
