@@ -23,6 +23,7 @@ const PORT = process.env.PORT;
 const authRouter = require("./routes/auth");
 const influencerRouter = require("./routes/influencer");
 const pixelRouter = require("./routes/pixels");
+const marketPlaceRouter=require("./routes/marketplace")
 
 
 app.get("/", (req, res) => {
@@ -34,8 +35,7 @@ pixelRouter
 app.use("/api/v1", authRouter);
 app.use("/api/v1", influencerRouter);
 app.use("/api/v1", pixelRouter);
-
-
+app.use("/api/v1", marketPlaceRouter);
 
 
 const start = async () => {
