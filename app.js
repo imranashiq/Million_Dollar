@@ -14,14 +14,16 @@ const corsOptions = {
     "http://localhost:5173",
     "https://reimagined-couscous-drab.vercel.app",
     "https://milliondollarinfluencer.com",
-    "https://milliondollarinfluencer.com/",
-  ], // Your frontend domain
+    "https://api.milliondollarinfluencer.com",
+    /\.milliondollarinfluencer\.com$/, // Allow all subdomains
+  ],
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
-  credentials: true, // Enable if using cookies/tokens
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight CORS requests
 app.use("/uploads", express.static("uploads"));
 
 const PORT = process.env.PORT;
