@@ -4,6 +4,8 @@ const marketPlaceSchema = new mongoose.Schema(
   {
     price:Number,
     isBid:{type:Boolean,default:false},
+    active:{type:Boolean,default:true},
+
      userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -21,6 +23,7 @@ const marketPlaceSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    timer:Date,
     selectedPixels: [
       {
         startPos: {

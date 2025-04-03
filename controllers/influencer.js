@@ -110,6 +110,16 @@ exports.getInfluencer=async (req,res) => {
         return res.status(400).json({success:false,message:error.message})
     }
 }
+exports.getInfluencerById=async (req,res) => {
+    try {
+        const {id}=req.params
+        const user=await User.find({role:"influencer",permanentDeleted:false,_id:id})
+      return res.status(200).json({success:true,data:user})
+    } catch (error) {
+        return res.status(400).json({success:false,message:error.message})
+    }
+}
+
 
 exports.uploadPromo=async (req,res) => {
     try {

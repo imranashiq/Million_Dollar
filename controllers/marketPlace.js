@@ -3,9 +3,9 @@ const MarketPlace = require("../models/marketPlace");
 exports.createMarketPlace=async (req,res) => {
     try {
         const {userId}=req.user
-        const {selectedPixels,price,isBid}=req.body
+        const {selectedPixels,price,isBid,timer}=req.body
         // console.log(req.body)
-      await MarketPlace.create({selectedPixels,price,userId,isBid})
+      await MarketPlace.create({selectedPixels,price,userId,isBid,timer})
       return res.status(200).json({success:true,message:"MarketPlace Added"})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
