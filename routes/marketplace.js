@@ -8,7 +8,6 @@ marketPlaceRouter.post("/createMarketPlace",userAuth, createMarketPlace);
 marketPlaceRouter.post("/createBid",userAuth, createBid);
 marketPlaceRouter.get("/getAllMarketPlace", getAllMarketPlace);
 marketPlaceRouter.get("/getAllBids",userAuth, getAllBids);
-
-
+marketPlaceRouter.patch("/DeleteMarketPlace",userAuth, getAllBids);
 
 module.exports = marketPlaceRouter;

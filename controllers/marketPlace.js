@@ -6,6 +6,13 @@ exports.createMarketPlace=async (req,res) => {
     try {
         const {userId}=req.user
         const {price,isBid,timer}=req.body
+        if (!price||!isBid||!timer) {
+          return res.status(400).json({success:false,message:"Please Provide All Required Fields"})
+        }
+        let check=await MarketPlace.findOne({userId,active:true})
+        if (check) {
+          return res.status(200).json({success:true,message:"You Already Have Pixels In Market Place"})
+        }
         const user=await User.findOne({_id:userId})
       await MarketPlace.create({selectedPixels:user.selectedPixels,price,userId,isBid,timer})
       return res.status(200).json({success:true,message:"MarketPlace Added"})
@@ -74,4 +81,17 @@ exports.getAllBids=async (req,res) => {
     } catch (error) {
         return res.status(200).json({success:true,message:error.message})
     }
+}
+
+exports.DeleteMarketPlace=async (req,res) => {
+  try {
+    let {mpId}=req.params
+      const marketplace=await MarketPlace.findOneAndUpdate({_id:mpId},{permanentDeleted:true,active:false})
+      if (!marketplace) {
+          return res.status(200).json({success:true,message:"No Data Available"})
+      }
+      return res.status(200).json({success:true,message:"Deactivated Successfully"})
+  } catch (error) {
+      return res.status(200).json({success:true,message:error.message})
+  }
 }
