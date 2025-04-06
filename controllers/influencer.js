@@ -135,6 +135,20 @@ exports.uploadPromo=async (req,res) => {
     }
 }
 
+exports.uploadCover=async (req,res) => {
+    try {
+        const {userId}=req.user
+        if (req.file) {
+            let cover="/"+req.file.path
+            await User.findOneAndUpdate({_id:userId},{cover})
+            return res.status(200).json({success:true,message:"Cover Uploaded Successfully"})
+        }
+   
+    } catch (error) {
+        return res.status(400).json({success:false,message:error.message})
+    }
+}
+
 exports.deleteUser=async (req,res) => {
     try {
         const {userId}=req.user

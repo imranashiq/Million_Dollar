@@ -53,7 +53,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-
+    cover: {
+      type: String,
+      trim: true,
+    },
     password: {
       type: String,
       trim: true,

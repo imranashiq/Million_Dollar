@@ -48,13 +48,16 @@ exports.register = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    await User.create({
+
+   let user1= await User.create({
       email: email.toLowerCase(),
       password: hashedPassword,
     });
+    const token = await user1.createJWT();
+
     return res
       .status(200)
-      .json({ success: true, message: "User Registered Successfully" });
+      .json({ success: true, message: "User Registered Successfully" ,token});
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }
