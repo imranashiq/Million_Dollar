@@ -6,7 +6,12 @@ exports.createMarketPlace=async (req,res) => {
     try {
         const {userId}=req.user
         const {price,isBid,timer}=req.body
-        if (!price||!isBid||!timer) {
+        if (isBid===true) {
+          if (!timer) {
+          return res.status(400).json({success:false,message:"Please Provide Timer"})
+          }
+        }
+        if (!price||!isBid) {
           return res.status(400).json({success:false,message:"Please Provide All Required Fields"})
         }
         let check=await MarketPlace.findOne({userId,active:true})
