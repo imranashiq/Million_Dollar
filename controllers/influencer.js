@@ -58,6 +58,19 @@ exports.addCoins=async (req,res) => {
 }
 
 
+exports.editProfile=async (req,res) => {
+    try {
+        const {userId}=req.user
+        const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,profilePicture,email,promo,cover}=req.body
+      
+
+      await User.findOneAndUpdate({_id:userId},{firstName,lastName,userName,bio,facebook,instagram,twitter,projects,profilePicture,email,promo,cover})
+      return res.status(200).json({success:true,message:"Profile Updated Successfully"})
+    } catch (error) {
+        return res.status(400).json({success:false,message:error.message})
+    }
+}
+
 exports.deductCoins=async (req,res) => {
     try {
         const {email,coins}=req.body

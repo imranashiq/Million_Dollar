@@ -5,7 +5,7 @@ const  upload  = require("../utills/upload");
 
 
 marketPlaceRouter.post("/createMarketPlace",userAuth, createMarketPlace);
-marketPlaceRouter.post("/createBid",userAuth, createBid);
+marketPlaceRouter.post("/createBid/:mpId",userAuth, createBid);
 marketPlaceRouter.get("/getAllMarketPlace", getAllMarketPlace);
 marketPlaceRouter.get("/getAllBids",userAuth, getAllBids);
 marketPlaceRouter.patch("/DeleteMarketPlace",userAuth, getAllBids);

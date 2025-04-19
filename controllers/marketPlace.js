@@ -6,6 +6,7 @@ exports.createMarketPlace=async (req,res) => {
     try {
         const {userId}=req.user
         const {price,isBid,timer}=req.body
+        console.log(req.body)
         if (isBid===true) {
           if (!timer) {
           return res.status(400).json({success:false,message:"Please Provide Timer"})
@@ -16,7 +17,7 @@ exports.createMarketPlace=async (req,res) => {
         }
         let check=await MarketPlace.findOne({userId,active:true})
         if (check) {
-          return res.status(200).json({success:true,message:"You Already Have Pixels In Market Place"})
+          return res.status(400).json({success:false,message:"You Already Have Pixels In Market Place"})
         }
         const user=await User.findOne({_id:userId})
       await MarketPlace.create({selectedPixels:user.selectedPixels,price,userId,isBid,timer})
@@ -75,18 +76,26 @@ exports.createBid = async (req, res) => {
   }
 };
 
-exports.getAllBids=async (req,res) => {
-    try {
-        const {userId}=req.user
-        const marketplace=await MarketPlace.find({userId}).populate("userId").sort({createdAt:-1}).select("bids")
-        if (!marketplace) {
-            return res.status(200).json({success:true,message:"No Data Available"})
-        }
-        return res.status(200).json({success:true,data:marketplace})
-    } catch (error) {
-        return res.status(200).json({success:true,message:error.message})
+exports.getAllBids = async (req, res) => {
+  try {
+    const { userId } = req.user;
+
+    const marketplaces = await MarketPlace.find({
+      "bids.bidder": userId,
+    })
+      .populate("userId") 
+      // .populate("bids.bidder")
+      .sort({ createdAt: -1 });
+
+    if (!marketplaces || marketplaces.length === 0) {
+      return res.status(200).json({ success: true, message: "No bids found." });
     }
-}
+
+    return res.status(200).json({ success: true, data: marketplaces });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 exports.DeleteMarketPlace=async (req,res) => {
   try {
