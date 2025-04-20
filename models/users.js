@@ -82,6 +82,8 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: "",
     },
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 
     permanentDeleted: {
       type: Boolean,

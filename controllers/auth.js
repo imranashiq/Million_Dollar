@@ -181,3 +181,72 @@ console.log(req.body)
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+
+
+exports.followUser = async (req, res) => {
+  try {
+      const followerId = req.user.userId;  
+      const { followeeId } = req.body; 
+      if (followerId === followeeId) {
+          return res.status(400).json({ success: false, message: "You cannot follow yourself" });
+      }
+
+      const follower = await User.findById(followerId);
+      const followee = await User.findById(followeeId);
+
+      if (!follower) return res.status(404).json({ success: false, message: "Follower not found" });
+      if (!followee) return res.status(404).json({ success: false, message: "Followee not found" });
+
+      if (follower.following.includes(followeeId)) {
+          follower.following = follower.following.filter(followingId => followingId.toString() !== followeeId.toString());
+
+          followee.followers = followee.followers.filter(followerId => followerId.toString() !== followerId.toString());
+
+          await follower.save();
+          await followee.save();
+
+          return res.status(200).json({ success: true, message: "Unfollowed successfully" });
+      } else {
+          followee.followers.push(followerId);
+          follower.following.push(followeeId);
+
+          await follower.save();
+          await followee.save();
+
+          return res.status(200).json({ success: true, message: "Followed successfully" });
+      }
+  } catch (error) {
+      return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+exports.getFollowers = async (req, res) => {
+  try {
+      const userId = req.user.userId;  
+
+      const user = await User.findById(userId).populate('followers');
+
+      if (!user) {
+          return res.status(404).json({ success: false, message: "User not found" });
+      }
+return res.status(200).json({success:true,data:user.followers,total:user.followers.length})
+  } catch (error) {
+      return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+exports.getFollowing = async (req, res) => {
+  try {
+      const userId = req.user.userId;
+      const user = await User.findById(userId).populate('following');
+
+      if (!user) {
+          return res.status(404).json({ success: false, message: "User not found" });
+      }
+      return res.status(200).json({success:true,data:user.following,total:user.following.length})
+    } catch (error) {
+      return res.status(400).json({ success: false, message: error.message });
+  }
+};

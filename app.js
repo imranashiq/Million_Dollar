@@ -88,7 +88,7 @@ cron.schedule("*/5 * * * *", async () => {
     const now = new Date();
 
     const result = await MarketPlace.updateMany(
-      { timer: { $lte: now }, status: true },
+      { timer: { $lte: now }, active: true },
       { $set: { active: false } }
     );
 
