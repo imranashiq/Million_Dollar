@@ -45,6 +45,7 @@ exports.SelectPixel=async (req,res) => {
 exports.addCoins=async (req,res) => {
     try {
         const {email,coins}=req.body
+        console.log(req.body)
         let check=await User.findOne({email})
         if (!check) {
             return res.status(400).json({success:false,email:"Wrong Email"})
