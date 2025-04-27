@@ -1,6 +1,6 @@
 const influencerRouter = require("express").Router();
 const { followUser, getFollowers, getFollowing } = require("../controllers/auth");
-const { createInfluencerProfile, getProfile, uploadPromo, deleteUser, uploadPixelImage, SelectPixel, getInfluencer, addCoins, deductCoins,getInfluencerById, uploadCover, editProfile } = require("../controllers/influencer");
+const { createInfluencerProfile, getProfile, uploadPromo, deleteUser, uploadPixelImage, SelectPixel, getInfluencer, addCoins, deductCoins,getInfluencerById, uploadCover, editProfile, createCharge } = require("../controllers/influencer");
 const userAuth = require("../middlewares/userAuth");
 const  upload  = require("../utills/upload");
 
@@ -21,6 +21,8 @@ influencerRouter.patch("/deleteUser",userAuth, deleteUser);
 influencerRouter.patch("/followUser",userAuth, followUser);
 influencerRouter.patch("/getFollowers",userAuth, getFollowers);
 influencerRouter.patch("/getFollowing",userAuth, getFollowing);
+influencerRouter.post("/createCharge",createCharge);
+
 
 
 

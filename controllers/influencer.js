@@ -1,4 +1,5 @@
 const User = require("../models/users");
+const axios = require("axios");
 
 exports.createInfluencerProfile=async (req,res) => {
     try {
@@ -174,3 +175,41 @@ exports.deleteUser=async (req,res) => {
         return res.status(400).json({success:false,message:error.message})
     }
 }
+
+exports.createCharge = async (req, res) => {
+    const { token, amount, name, email } = req.body;
+  
+    const payload = {
+      sellerId: process.env.TWOCHECKOUT_MERCHANT_CODE,
+      merchantOrderId: `order_${Date.now()}`,
+      token,
+      currency: "USD",
+      total: amount,
+      billingAddr: {
+        name,
+        email,
+        addrLine1: "123 Street",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        country: "USA"
+      }
+    };
+  
+    try {
+      const result = await axios.post("https://api.2checkout.com/rest/6.0/orders/", payload, {
+        auth: {
+          username: process.env.TWOCHECKOUT_MERCHANT_CODE,
+          password: process.env.TWOCHECKOUT_PRIVATE_KEY
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      });
+  
+      res.json({ success: true, data: result.data });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.response?.data || err.message });
+    }
+  };
