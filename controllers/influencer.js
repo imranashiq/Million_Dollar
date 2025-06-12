@@ -1,5 +1,6 @@
 const User = require("../models/users");
 const axios = require("axios");
+const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY;
 
 exports.createInfluencerProfile=async (req,res) => {
     try {
@@ -7,7 +8,7 @@ exports.createInfluencerProfile=async (req,res) => {
         console.log(req.body)
         let check=await User.findOne({email})
         if (!check) {
-            return res.status(400).json({success:false,email:"Wrong Email"})
+            return res.status(400).json({success:false,message:"Wrong Email"})
         }
         let profilePicture
         if (req.file) {
@@ -32,7 +33,7 @@ exports.SelectPixel=async (req,res) => {
         const deduction=check.coins-subtotal
         console.log(deduction)
         if (deduction<0) {
-            return res.status(400).json({success:trie,message:"You Don't Enough Coins"})
+            return res.status(400).json({success:true,message:"You Don't Enough Coins"})
         }
 
 
@@ -82,7 +83,7 @@ exports.deductCoins=async (req,res) => {
         }
         const deduction=check.coins-coins
         if (deduction<0) {
-            return res.status(400).json({success:trie,message:"You Don't Enough Coins"})
+            return res.status(400).json({success:true,message:"You Don't Enough Coins"})
         }
 
       await User.findOneAndUpdate({email},{coins:check.coins-coins})
@@ -176,162 +177,109 @@ exports.deleteUser=async (req,res) => {
     }
 }
 
+
 // exports.createCharge = async (req, res) => {
 //     const { token, amount, name, email } = req.body;
   
-//     const payload = {
-//       sellerId: process.env.TWOCHECKOUT_MERCHANT_CODE,
-//       merchantOrderId: `order_${Date.now()}`,
-//       token,
-//       currency: "USD",
-//       total: amount,
-//       billingAddr: {
-//         name,
-//         email,
-//         addrLine1: "123 Street",
-//         city: "New York",
-//         state: "NY",
-//         zipCode: "10001",
-//         country: "USA"
-//       }
-//     };
-  
 //     try {
-//       const result = await axios.post("https://api.2checkout.com/rest/6.0/orders/", payload, {
-//         auth: {
-//           username: process.env.TWOCHECKOUT_MERCHANT_CODE,
-//           password: process.env.TWOCHECKOUT_PRIVATE_KEY
-//         },
-//         headers: {
-//           "Content-Type": "application/json",
-//           Accept: "application/json"
+//       // Step 1: Get OAuth access token
+//       const base64Credentials = Buffer.from(
+//         `${process.env.TWOCHECKOUT_MERCHANT_CODE}:${process.env.TWOCHECKOUT_PRIVATE_KEY}`
+//       ).toString('base64');
+  
+//       const tokenResponse = await axios.post(
+//         'https://api.2checkout.com/oauth2/token',
+//         'grant_type=client_credentials',
+//         {
+//           headers: {
+//             'Content-Type': 'application/x-www-form-urlencoded',
+//             'Authorization': `Basic ${base64Credentials}`
+//           }
 //         }
-//       });
+//       );
+  
+//       const accessToken = tokenResponse.data.access_token;
+  
+//       // Step 2: Create the order
+//       const payload = {
+//         sellerId: process.env.TWOCHECKOUT_MERCHANT_CODE,
+//         merchantOrderId: `order_${Date.now()}`,
+//         token,
+//         currency: "USD",
+//         total: amount,
+//         billingAddr: {
+//           name,
+//           email,
+//           addrLine1: "123 Street",
+//           city: "New York",
+//           state: "NY",
+//           zipCode: "10001",
+//           country: "USA"
+//         }
+//       };
+  
+//       const result = await axios.post(
+//         "https://api.2checkout.com/rest/6.0/orders/",
+//         payload,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//             "Accept": "application/json",
+//             "Authorization": `Bearer ${accessToken}`
+//           }
+//         }
+//       );
   
 //       res.json({ success: true, data: result.data });
+  
 //     } catch (err) {
-//         console.log(err)
-//       res.status(500).json({ success: false, message: err.response?.data || err.message });
+//       console.error("2Checkout Error:", err.response?.data || err.message);
+//       res.status(500).json({
+//         success: false,
+//         message: err.response?.data?.message || err.message
+//       });
 //     }
 //   };
 
 
-exports.createCharge = async (req, res) => {
-    const { token, amount, name, email } = req.body;
-  
-    try {
-      // Step 1: Get OAuth access token
-      const base64Credentials = Buffer.from(
-        `${process.env.TWOCHECKOUT_MERCHANT_CODE}:${process.env.TWOCHECKOUT_PRIVATE_KEY}`
-      ).toString('base64');
-  
-      const tokenResponse = await axios.post(
-        'https://api.2checkout.com/oauth2/token',
-        'grant_type=client_credentials',
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${base64Credentials}`
-          }
-        }
-      );
-  
-      const accessToken = tokenResponse.data.access_token;
-  
-      // Step 2: Create the order
-      const payload = {
-        sellerId: process.env.TWOCHECKOUT_MERCHANT_CODE,
-        merchantOrderId: `order_${Date.now()}`,
-        token,
-        currency: "USD",
-        total: amount,
-        billingAddr: {
-          name,
-          email,
-          addrLine1: "123 Street",
-          city: "New York",
-          state: "NY",
-          zipCode: "10001",
-          country: "USA"
-        }
-      };
-  
-      const result = await axios.post(
-        "https://api.2checkout.com/rest/6.0/orders/",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": `Bearer ${accessToken}`
-          }
-        }
-      );
-  
-      res.json({ success: true, data: result.data });
-  
-    } catch (err) {
-      console.error("2Checkout Error:", err.response?.data || err.message);
-      res.status(500).json({
-        success: false,
-        message: err.response?.data?.message || err.message
-      });
-    }
-  };
 
-// exports.createCharge = async (req, res) => {
-//   const { amount, name, email } = req.body;
 
-//   const payload = {
-//     // entity_id: process.env.TWOCHECKOUT_ENTITY_ID,
-//     currency_code: 'USD',
-//     amount,
-//     customer: {
-//       email_address: email,
-//       billing: {
-//         name,
-//         email_address: email,
-//         phone_number: '1234567890', // Add phone number if needed
-//         address: '123 Street',
-//         city: 'New York',
-//         state: 'NY',
-//         zip_code: '10001',
-//         country: 'USA'
-//       }
-//     },
-//     return_url: 'https://your-return-url.com',
-//     redirect_method: 'DEFAULT',
-//     interaction_type: 'HPP', // Hosted Payment Page interaction type
-//     theme_id: 'your-theme-id', // If you have a custom theme
-//     sales_channel: 'ECOMMERCE',
-//     line_items: [
-//       {
-//         name: 'Product Name', // Add the actual product name
-//         quantity: 1,
-//         price: amount
-//       }
-//     ],
-//     receipt_type: 'INVOICE', // Receipt type for transaction
-//     notification_methods: {
-//       email: {}
-//     }
-//   };
+const headers = {
+  Authorization: `Bearer ${PAYSTACK_SECRET}`,
+  'Content-Type': 'application/json',
+};
 
-//   try {
-//     const result = await axios.post('https://api.2checkout.com/rest/v2/checkout', payload, {
-//       auth: {
-//         username: process.env.TWOCHECKOUT_MERCHANT_CODE,
-//         password: process.env.TWOCHECKOUT_PRIVATE_KEY
-//       },
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Accept: 'application/json'
-//       }
-//     });
+exports.initializePayment = async (req, res) => {
+  try {
+    const { email, amount } = req.body;
 
-//     res.json({ success: true, data: result.data });
-//   } catch (err) {
-//     // console.log(err)
-//     res.status(500).json({ success: false, message: err.response?.data || err.message });
-//   }
-// };
+    const response = await axios.post(
+      'https://api.paystack.co/transaction/initialize',
+      {
+        email,
+        amount: amount * 100, // Paystack expects amount in kobo
+        // currency: 'USD', // 👈 specify USD explicitly
+      },
+      { headers }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+};
+
+exports.verifyPayment = async (req, res) => {
+  try {
+    const { reference } = req.params;
+
+    const response = await axios.get(
+      `https://api.paystack.co/transaction/verify/${reference}`,
+      { headers }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+};
