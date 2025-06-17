@@ -52,6 +52,7 @@ const authRouter = require("./routes/auth");
 const influencerRouter = require("./routes/influencer");
 const pixelRouter = require("./routes/pixels");
 const marketPlaceRouter = require("./routes/marketplace");
+const paymentRouter = require("./routes/paymentRoutes");
 
 app.get("/", (req, res) => {
   res.send(
@@ -63,6 +64,7 @@ app.use("/api/v1", authRouter);
 app.use("/api/v1", influencerRouter);
 app.use("/api/v1", pixelRouter);
 app.use("/api/v1", marketPlaceRouter);
+app.use("/api/payments", paymentRouter);
 
 // DB and Server Start
 const PORT = process.env.PORT || 3334;
