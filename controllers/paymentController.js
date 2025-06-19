@@ -48,10 +48,9 @@ const paymentController = {
         price_amount,
         price_currency,
         order_id: generateOrderId(),
-        ipn_callback_url:
-          ipn_callback_url || `${process.env.BASE_URL}/api/payments/webhook`,
-        success_url: success_url || `${process.env.BASE_URL}/payment/success`,
-        cancel_url: cancel_url || `${process.env.BASE_URL}/payment/cancel`,
+        ipn_callback_url: ipn_callback_url || `${process.env.BASE_URL}`,
+        success_url: success_url || `${process.env.BASE_URL}/success`,
+        cancel_url: cancel_url || `${process.env.BASE_URL}/cancel`,
         customer_email: customer_email || null,
         partially_paid_url: partially_paid_url || null,
         payout_currency: payout_currency || null,
