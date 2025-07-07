@@ -1,7 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
 const crypto = require("crypto");
-const randomfinger = require("./browserdata");
+const randomfinger = require("./browserdata2");
 
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI4N2Y1ZDQxMi00ZWJhLTRjOTctOTk4NS04MDlhZDM0ZWQ0MmQiLCJpYXQiOjE3NTE3MTkyMDF9.n9-4jZb91iKAs-6StR9f-UJGcQXJZxP4jjtdvOtZpTg";
