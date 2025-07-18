@@ -17,6 +17,8 @@ const allowedOrigins = [
   "https://reimagined-couscous-drab.vercel.app",
   "https://milliondollarinfluencer.com/",
   "https://milliondollarinfluencer.com",
+  "https://www.milliondollarinfluencer.com/",
+  "https://www.milliondollarinfluencer.com"
 ];
 
 const corsOptions = {
