@@ -9,8 +9,8 @@ const sendEmail = async ({ to, subject, html }) => {
 
     let transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: 587,
-      secure: false,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.FROM_EMAIL_ADDRESS,
         pass: process.env.PASSWORD,
