@@ -15,10 +15,11 @@ app.use(morgan("dev"));
 const allowedOrigins = [
   "http://localhost:5173",
   "https://reimagined-couscous-drab.vercel.app",
-  "https://milliondollarinfluencer.com/",
+  // "https://milliondollarinfluencer.com/",
   "https://milliondollarinfluencer.com",
-  "https://www.milliondollarinfluencer.com/",
-  "https://www.milliondollarinfluencer.com"
+  // "https://www.milliondollarinfluencer.com/",
+  "https://www.milliondollarinfluencer.com",
+  "www.milliondollarinfluencer.com"
 ];
 
 const corsOptions = {
