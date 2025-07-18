@@ -384,7 +384,7 @@ exports.initializePayment = async (req, res) => {
       {
         email,
         amount: amount * 100, // Paystack expects amount in kobo
-        // currency: 'USD', // 👈 specify USD explicitly
+        currency: 'USD', // 👈 specify USD explicitly
       },
       { headers }
     );
