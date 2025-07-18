@@ -36,7 +36,11 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Preflight requests
+// app.options("*", cors(corsOptions)); // Preflight requests
+app.use((req, res, next) => {
+  console.log("Incoming Origin:", req.headers.origin);
+  next();
+});
 
 // Serve static files with CORS headers
 app.use(
