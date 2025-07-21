@@ -63,7 +63,7 @@ exports.addCoins=async (req,res) => {
 
 exports.sendMail = async (req, res) => {
     try {
-        const { firstName, lastName, email, message, website } = req.body;
+        const { firstName, lastName, useremail, message, socialLinks } = req.body;
 
         await sendEmail({
             to: "imranashiqsfs@gmail.com", 
@@ -156,11 +156,11 @@ exports.sendMail = async (req, res) => {
                                 <strong>Name:</strong> ${firstName} ${lastName}
                             </div>
                             <div class="detail-row">
-                                <strong>Email:</strong> <a href="mailto:${email}">${email}</a>
+                                <strong>Email:</strong> <a href="mailto:${useremail}">${useremail}</a>
                             </div>
-                            ${website ? `
+                            ${socialLinks ? `
                             <div class="detail-row">
-                                <strong>Website:</strong> <a href="${website}" target="_blank">${website}</a>
+                                <strong>Website:</strong> <a href="${socialLinks}" target="_blank">${socialLinks}</a>
                             </div>
                             ` : ''}
                             <div class="message-box">
