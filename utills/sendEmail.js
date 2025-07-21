@@ -1,35 +1,56 @@
-const nodemailer = require("nodemailer");
-require("dotenv").config();
+// const nodemailer = require("nodemailer");
+// require("dotenv").config();
+
+// const sendEmail = async ({ to, subject, html }) => {
+//   try {
+//     if (!to || typeof to !== "string" || to.trim() === "") {
+//       throw new Error("No recipient defined");
+//     }
+
+//     let transporter = nodemailer.createTransport({
+//       host: process.env.SMTP_HOST,
+//       port: 2525,
+//       secure: false,
+//       auth: {
+//         user: process.env.FROM_EMAIL_ADDRESS,
+//         pass: process.env.PASSWORD,
+//       },
+//       tls: {
+//         rejectUnauthorized: false,
+//       },
+//     });
+
+//     let info = await transporter.sendMail({
+//       from: `<${process.env.FROM_EMAIL_ADDRESS}>`,
+//       to,
+//       subject,
+//       html,
+//     });
+
+//     // console.log("Email sent:", info);
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// };
+
+// module.exports = sendEmail;
+
+
+// Install SendGrid: npm install @sendgrid/mail
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    if (!to || typeof to !== "string" || to.trim() === "") {
-      throw new Error("No recipient defined");
-    }
-
-    let transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: 2525,
-      secure: false,
-      auth: {
-        user: process.env.FROM_EMAIL_ADDRESS,
-        pass: process.env.PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    let info = await transporter.sendMail({
-      from: `<${process.env.FROM_EMAIL_ADDRESS}>`,
+    await sgMail.send({
       to,
+      from: process.env.FROM_EMAIL_ADDRESS,
       subject,
       html,
     });
-
-    // console.log("Email sent:", info);
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error('Error sending email:', error);
   }
 };
 

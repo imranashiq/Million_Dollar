@@ -66,7 +66,7 @@ exports.sendMail = async (req, res) => {
         const { firstName, lastName, email, message, website } = req.body;
 
         await sendEmail({
-            to: "support@milliondollarinfluencer.com", 
+            to: "imranashiqsfs@gmail.com", 
             subject: `✨ New Message from ${firstName} ${lastName}`,
             html: `
                 <!DOCTYPE html>
@@ -172,6 +172,8 @@ exports.sendMail = async (req, res) => {
                             <p>Sent via your website contact form • © ${new Date().getFullYear()} Million Dollar Influencer</p>
                             <p style="margin-top: 8px; font-size: 11px; opacity: 0.8;">
                                 <a href="https://www.milliondollarinfluencer.com/" style="color: #d4af37 !important;">Million Dollar Influencer</a> 
+                                | 
+                                <a href="#" style="color: #d4af37 !important;">Unsubscribe</a>
                             </p>
                         </div>
                     </div>
