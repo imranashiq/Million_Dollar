@@ -5,7 +5,7 @@ const sendEmail = require("../utills/sendEmail");
 
 exports.createInfluencerProfile=async (req,res) => {
     try {
-        const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email}=req.body
+        const {firstName,lastName,userName,bio,facebook,instagram,twitter,tiktok,projects,email}=req.body
         console.log(req.body)
         let check=await User.findOne({email})
         if (!check) {
@@ -16,7 +16,7 @@ exports.createInfluencerProfile=async (req,res) => {
              profilePicture="/"+req.file.path
         }
 
-      await User.findOneAndUpdate({email},{firstName,lastName,userName,bio,facebook,instagram,twitter,projects,email,profilePicture,role:"influencer"})
+      await User.findOneAndUpdate({email},{firstName,lastName,userName,tiktok,bio,facebook,instagram,twitter,projects,email,profilePicture,role:"influencer"})
       return res.status(200).json({success:true,message:"Influencer Profile Created"})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})
@@ -192,10 +192,10 @@ exports.sendMail = async (req, res) => {
 exports.editProfile=async (req,res) => {
     try {
         const {userId}=req.user
-        const {firstName,lastName,userName,bio,facebook,instagram,twitter,projects,profilePicture,email,promo,cover}=req.body
+        const {firstName,lastName,userName,bio,facebook,instagram,tiktok,twitter,projects,profilePicture,email,promo,cover}=req.body
       
 
-      await User.findOneAndUpdate({_id:userId},{firstName,lastName,userName,bio,facebook,instagram,twitter,projects,profilePicture,email,promo,cover})
+      await User.findOneAndUpdate({_id:userId},{firstName,lastName,userName,tiktok,bio,facebook,instagram,twitter,projects,profilePicture,email,promo,cover})
       return res.status(200).json({success:true,message:"Profile Updated Successfully"})
     } catch (error) {
         return res.status(400).json({success:false,message:error.message})

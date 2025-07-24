@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    tiktok: {
+      type: String,
+      trim: true,
+    },
     instagram: {
       type: String,
       trim: true,
