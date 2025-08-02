@@ -66,7 +66,7 @@ exports.sendMail = async (req, res) => {
         const { firstName, lastName, useremail, message, socialLinks } = req.body;
 
         await sendEmail({
-            to: "help@milliondollarifluencer.com", 
+            to: "mdinfluencer2025@gmail.com", 
             subject: `✨ New Message from ${firstName} ${lastName}`,
             html: `
                 <!DOCTYPE html>
